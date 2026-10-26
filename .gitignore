@@ -1,0 +1,94 @@
+**/*.a
+**/*.pl
+**/_deps/
+**/generated-includes/
+**/Makefile
+**/APCEMM_out/
+**/*.cmake
+**/*.tcl
+
+APCEMM
+unittest
+
+# Compiled source #
+###################
+*.com
+*.dll
+*.exe
+*.o
+*.so
+
+# KPP files #
+#############
+*.kpp
+*.map
+
+# Packages #
+############
+*.7z
+*.gz
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs #
+########
+*log*
+*.sql
+*.out
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Trashes
+Thumbs.db
+
+# Some Shell files #
+####################
+*.mp
+*.sp
+rundirs/*/APCEMM
+
+# Folders #
+###########
+Code*/build
+Code*/trash
+Code*/lib*
+Code*/debug*
+rundirs/*
+!rundirs/SampleRunDir
+!rundirs/CreateRunFolder.sh
+
+# netCDF files #
+################
+*.nc
+!examples/Example3_met_input/example_met_file.nc
+!Code*/tests/test_meteorology_metfile.nc
+
+# Debug files #
+###############
+gdb*
+valgrind*
+
+# For UNIX #
+############
+*~
+
+# Cmake files #
+CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
+
+/Code.v05-00/vcpkg_installed/
+/Code.v05-00/include/APCEMM.h
+
+# Keep source build files from the vendored vcpkg snapshot.
+!/Code.v05-00/submodules/vcpkg/**/*.cmake
+!/Code.v05-00/submodules/vcpkg/**/*.pl
+
+# Generated validation outputs and process IDs stay local.
+/experiments/permfix_test/out*/
+/experiments/permfix_test/pid_*

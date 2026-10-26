@@ -1,0 +1,49 @@
+FROM --platform=linux/amd64 gcc:11.2 as builder
+
+RUN apt-get update \
+  && apt-get install -y \
+  build-essential \
+  ca-certificates \ 
+  curl \
+  libssl-dev \
+  zlib1g-dev \
+  libcurl4-openssl-dev \
+  libfftw3-dev \
+  libnetcdf-dev \
+  libnetcdf-c++4-dev \
+  locales \
+  make \
+  python3-venv \
+  sudo \
+  zsh \
+  autoconf \
+  automake \
+  libtool \
+  zip \
+  unzip \
+  tar
+
+RUN apt-get clean \
+  && rm -rf /var/lib/apt/lists/* \
+  && apt-get update \
+  && apt-get install gettext -y
+
+RUN locale-gen en_US.UTF-8
+
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.30.3/cmake-3.30.3-Linux-x86_64.sh \
+  -q -O /tmp/cmake-install.sh \
+  && chmod u+x /tmp/cmake-install.sh \
+  && mkdir /opt/cmake-3.30.3 \
+  && /tmp/cmake-install.sh --skip-license --prefix=/opt/cmake-3.30.3 \
+  && rm /tmp/cmake-install.sh \
+  && ln -s /opt/cmake-3.30.3/bin/* /usr/local/bin
+
+RUN zsh -c 'git clone --depth 1 --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"' && \
+  cd ${ZDOTDIR:-$HOME}/.zprezto && \ 
+  git pull && \
+  git submodule sync --recursive && \
+  git submodule update --init --recursive && \
+  zsh -c 'setopt EXTENDED_GLOB; for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"; done' && \
+  chsh -s /bin/zsh
+
+CMD ["/usr/sbin/sshd", "-D", "-e", "-f", "/etc/ssh/sshd_config"]  
